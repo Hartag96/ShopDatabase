@@ -1,0 +1,51 @@
+html
+    block link
+        -var selected = 'Produkty'; //default
+        
+    -var menu = { 'Produkty': '/product', 'Kategorie': '/categories', 'Dodaj': '/create' };
+    head
+        title= title
+        script(src='../javascripts/menu.js', type='text/javascript')
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css', integrity='sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=', crossorigin='anonymous')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+
+        meta(name='viewport', content='width=device-width', initial-scale='1.0')
+    body
+        #wrap
+        h1.page-header= title
+        p.lead Baza danych z użyciem express i mongodb autorstwa &nbsp;
+            a(href="https://github.com/Hartag96") @Hartag
+        block page
+        block header
+            nav.navbar.navbar-expand-lg.navbar-light.bg-light.m-2
+                button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarTogglerDemo01', aria-controls='navbarTogglerDemo01', aria-expanded='false', aria-label='Toggle navigation')
+                    span.navbar-toggler-icon
+                div#navbarTogglerDemo01.collapse.navbar-collapse
+                    a.navbar-brand(href='/') M-car
+                    ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+                        each val, index in menu
+                            if index === selected
+                                li.nav-item.active
+                                    a.nav-link(href=val)= index
+                            else 
+                                li.nav-item
+                                    a.nav-link(href=val)= index
+                    div.form-inline.my-2.my-lg-0form
+                        input.form-control.mr-sm-2#searchInput(type='search', placeholder='Search', aria-label='Search')
+                        button.btn.btn-outline-primary.my-2.my-sm-0#search Search
+
+        block alert
+            
+        .content
+            block content
+        block footer
+            footer 
+                .container
+                    p.m-5
+                        | Copyright &copy; 2018 | Problemy? Zglos je na stronie
+                        a(href="xdddd.html")  Github
+                        | .
+    script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl', crossorigin='anonymous')

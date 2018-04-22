@@ -1,0 +1,66 @@
+extends layout 
+
+block link
+    script(src='../javascripts/price.js', type='text/javascript')
+    script(src='../javascripts/productButtons.js', type='text/javascript')
+    -var selected = ''; //default    
+    -var active = '';
+        
+block content
+    h2.m-4= product.name
+        .container-fluid
+            .buttons.m-3
+                a.btn.btn-outline-primary.p-3.m-1#edit(role='button', href='../edit/#{product.id}')  Edycja
+                button.btn.btn-outline-primary.p-3.m-1#disable(disabled= (!product.available))  Wyłacz Produkt
+                button.btn.btn-outline-primary.p-3.m-1#delete  Usuń
+            .row
+                .col-md-12.col-xl-6
+                    table.table.table-bordered
+                        thead
+                            tr
+                                th(scope='col') Pole
+                                th(scope='col') Wartość
+                        tbody
+                            tr
+                                td ID
+                                td= product.id
+                            tr
+                                td Nazwa
+                                td= product.name
+                            tr
+                                td Kategoria
+                                td= product.category.name
+                            tr
+                                td Cena-1
+                                td#price= product.price1
+                            tr
+                                td Cena-2
+                                td#price= product.price2
+                            tr
+                                td Cena-3
+                                td#price= product.price3
+                            tr
+                                td Ilość
+                                td= product.quantity
+                            tr
+                                td Dostęp
+                                td
+                                    if product.available 
+                                        |   tak
+                                    else 
+                                        |   nie
+                .col-xl-6.col-md-12
+                    #carouselExampleControls.carousel.slide(data-ride='carousel', style="overflow:hidden; height:500px")
+                        if(product.images[0] !== undefined)
+                            .carousel-inner
+                            each image, index in product.images
+                                .carousel-item(class=((index===0) ? "active" : ""))
+                                    img.d-block.mw-100.mx-auto(src=("../products/"+image), alt='First slide')
+                              a.carousel-control-prev(href='#carouselExampleControls', role='button', data-slide='prev')
+                                span.oi.oi-arrow-thick-left.text-primary(aria-hidden='true')
+                                span.sr-only Previous
+                              a.carousel-control-next(href='#carouselExampleControls', role='button', data-slide='next')
+                                span.oi.oi-arrow-thick-right.text-primary(aria-hidden='true')
+                                span.sr-only Next
+                        else
+                            img.d-block.mw-100.mx-auto(src=("../noImg.png"), alt='First slide')

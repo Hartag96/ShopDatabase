@@ -1,0 +1,13 @@
+extends layout
+
+block page
+    -var selected = 'Kategorie';     
+block content
+
+    .container
+        h2.p-4 Wybierz kategorie aby zobaczyć produkty 
+        .col-md-12
+            .row
+                .btn-group-vertical
+                each category in categories
+                    a.w-100.m-1.btn.btn-primary.btn-lg.active(href="/categories/"+category.name, role='button', aria-pressed='true')=category.name

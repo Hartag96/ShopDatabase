@@ -1,0 +1,70 @@
+extends layout
+
+block link
+    script(src='../javascripts/createThumbnails.js', type='text/javascript')
+    -var selected = 'Dodaj'; //default 
+    
+    
+block content
+    h2 Tu bedziemy towrzyć nowy elemnet
+    .container-fluid
+        .row
+            .col-md-5
+                form(method="post", action="/create", autocomplete="off", enctype="multipart/form-data")
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text Nazwa
+                        input.form-control(name="name", required, value=(undefined===product ? '' : product.name))
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            label.input-group-text(for='category') Kategoria
+                        select#category.custom-select(name="category", required=true value=(undefined===product ? '' : product.category))
+                            if(product === undefined)
+                                option(value="", selected=true) Wybierz...
+                            each category in categories
+                                if(product !== undefined && category.name === product.category)
+                                    option(value="#{category.name}" selected=true)=category.name
+                                else 
+                                    option(value="#{category.name}")=category.name
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            span.input-group-text Cena-1
+                            span.input-group-text zł
+                        input.form-control(name="price1", required, value=(undefined===product ? '' : product.price1))
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            span.input-group-text Cena-2
+                            span.input-group-text zł
+                        input.form-control(name="price2", required, value=(undefined===product ? '' : product.price2))
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            span.input-group-text Cena-3
+                            span.input-group-text zł
+                        input.form-control(name="price3", required, value=(undefined===product ? '' : product.price3))
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text Ilość
+                        input.form-control(name="quantity", required, value=(undefined===product ? '' : product.quantity))
+                    div.input-group.m-1
+                        div.input-group-prepend
+                            span.input-group-text Zdjęcie
+                        div.custom-file
+                            input#image.custom-file-input(multiple="true", type="file", name="images", accept="image/*")
+                            label.custom-file-label(for="images")
+                    div.pl-3.pt-3
+                        button.btn.btn-outline-primary.btn-lg.float-right(type="submit") Enter
+            .col-md-7 
+                if succes == true
+                    .alert.alert-success(role='alert')
+                        | Operacja dodania zakonczona sukcesem!
+                        | Przejdź do produktu 
+                        a.text-muted(href="../product/#{productID}")= productName
+                else if succes == false
+                    each err in errors
+                        .alert.alert-danger(role='alert')
+                            | Bład!
+                            br  
+                            |  #{err.msg}
+                            |  Podałeś #{err.value} 
+                            
+                .thumbnailsContener.m-3.d-flex.align-items-end.flex-wrap

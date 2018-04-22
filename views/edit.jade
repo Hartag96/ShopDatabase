@@ -1,0 +1,93 @@
+extends layout
+
+block link
+    //- Gdy edycja sie nie powiodla nie edytuje cen jeszcze raz 
+    if (succes === undefined) 
+        script(src='../javascripts/price.js', type='text/javascript')
+    
+    script(src='../javascripts/createThumbnails.js', type='text/javascript')
+    
+block content
+    h2 Tu bedziemy edytowac elemnet
+    .container-fluid
+        .row
+            .col-md-6
+                form(method="POST", action="/edit", autocomplete="off", enctype="multipart/form-data")
+                    .input-group.m-1
+                        .input-group-prepend
+                            span.input-group-text ID
+                        input.form-control(name="id", readonly, value="#{product.id}")
+                    .input-group.m-1
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text Nazwa
+                        input.form-control(name="name", required, value="#{product.name}")
+                    .input-group.m-1
+                        .input-group-prepend
+                            label.input-group-text(for='category') Options
+                        select#category.custom-select(name="category")
+                            each category in categories
+                                if(category.name == product.category.name)
+                                    option(selected=true value="#{category.name}")=category.name
+                                else
+                                    option(value="#{category.name}")=category.name
+                    .input-group.m-1
+                        .input-group-prepend
+                            span.input-group-text Cena-1
+                            span.input-group-text zł
+                        input.form-control#price(name="price1", required, value="#{product.price1}")
+                    .input-group.m-1
+                        .input-group-prepend
+                            span.input-group-text Cena-2
+                            span.input-group-text zł
+                        input.form-control#price(name="price2", required,  value="#{product.price2}")
+                    .input-group.m-1
+                        .input-group-prepend
+                            span.input-group-text Cena-3
+                            span.input-group-text zł
+                        input.form-control#price(name="price3", required,  value="#{product.price3}")
+                    .input-group.m-1
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text Ilość
+                        input.form-control(name="quantity", required,  value="#{product.quantity}")
+                    .input-group.m-1
+                        span#inputGroup-sizing-default.input-group-text Dostępność
+                        .custom-control.custom-radio.m-2
+                            input#availableFalse.custom-control-input(type='radio', name='available', value="false", checked=(product.available===true ? false : true))
+                            label.custom-control-label(for='availableFalse') Niedostępny
+                        .custom-control.custom-radio.m-2
+                            input#availableTrue.custom-control-input(type='radio', name='available', value="true", checked=(product.available===true ? true : false))
+                            label.custom-control-label(for='availableTrue') Dostępny
+                    .input-group.m-1
+                        .input-group-prepend
+                            span.input-group-text Zdjęcie
+                        .custom-file
+                            input#image.custom-file-input(multiple="multiple", type="file", name="images", accept="image/*")
+                            label.custom-file-label(for="images")
+                    .input-group.m-1
+                        .input-group-prepend
+                            span.input-group-text Obecne zdjecia
+                            span.input-group-text zł
+                        input.form-control#imagesToDelete(name="imagesToDelete", value="")
+
+                    .pl-3.pt-3
+                        button.btn.btn-outline-primary.btn-lg.float-right(type="submit") Zaktualizuj
+            .col-md-6
+                if succes == true
+                    .alert.alert-success(role='alert')
+                        | Operacja edycji zakonczona sukcesem!
+                else if succes == false
+                    each val, index in errors
+                        .alert.alert-danger(role='alert')
+                            | Bład!
+                            br  
+                            |  #{val.msg}
+                            |  Podałeś #{val.value}
+                
+                .thumbnailsContener.m-3.d-flex.align-items-end.flex-wrap
+                        each image in product.images
+                            .thumbnail.p-2.col-sm-12.col-md-12.col-lg-6.col-xl-4
+                                img.img-thumbnail.rounded.border.border-secondary.mx-auto.d-block(src=("../products/"+image) alt="...")
+                                button.m-1.btn.btn-outline-danger.btn-block#deleteTrigger(type='button', value="existing", name=image) Usuń
+                                .caption
+                                    p.p-2.w-100.d-inline-block.text-truncate.text-secondary=image
+                .thumbnailsContener.m-3.d-flex.align-items-end.flex-wrap

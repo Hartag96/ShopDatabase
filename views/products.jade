@@ -1,0 +1,92 @@
+extends layout
+block link 
+    script(src='../javascripts/price.js', type='text/javascript')
+
+    - if(searchQuery === undefined) searchQuery = '' // Zapobiega search = undefined
+    
+block content
+    if(products.length === 0)
+        .alert.alert-danger(role='alert')
+            | Nie znaleziono wyników dla zapytania 
+            a.alert-link(href='')= searchQuery
+            | . Sprobuj ponownie.
+    else  
+        table.table.table-hover
+            thead
+                tr
+                    th.border
+                        span.d-block.text-center id
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=_id&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-_id&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center name
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=name&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-name&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center category
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=category&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-category&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center quantity
+                        .sortPanel.d-block.text-center
+                            a(href="?&sort=quantity&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="?&sort=-quantity&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center price1
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=price1&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-price1&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center price2
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=price2&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-price2&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center price3
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=price3&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-price3&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending
+                    th.border
+                        span.d-block.text-center available
+                        .sortPanel.d-block.text-center
+                            a(href="/product/?sort=available&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-ascending
+                            a(href="/product/?sort=-available&search=#{searchQuery}")
+                                span.m-1.oi.oi-sort-descending        
+            tbody
+                each product, index in products
+                    tr 
+                            td 
+                                a(href="/product/#{product.id}")= product.id
+                            td= product.name
+                            td= product.category.name
+                            td= product.quantity
+                            td#price= product.price1
+                                |  zł
+                            td#price= product.price2
+                                |  zł
+                            td#price= product.price3 
+                                |  zł 
+                            td
+                                if product.available 
+                                    |   tak
+                                else 
+                                    |   nie
+  
