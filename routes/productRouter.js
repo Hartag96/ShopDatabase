@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const path = require('path');
 const router = express.Router();
 router.use(bodyParser.json());
 
@@ -90,8 +91,8 @@ router.route('/:productID')
                             .then((product) => {
                                 if (product.images) {
                                     product.images.forEach((img) => {
-                                        fs.unlinkSync('./public/images/products/' + img)
-                                        console.log(`img ${img} deleted`);
+                                        let imgPath = path.join('public', 'images', 'products', img);
+                                        fs.unlinkSync(imgPath)
                                     });
                                 }
                                 product.remove()

@@ -2,11 +2,13 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const Products = require('./models/products');
 const fs = require('fs');
+const path = require('path');
 
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/images/products');
+        let folderPath = path.join(__dirname, 'public', 'images', 'products');
+        cb(null, folderPath);
     },
 
 

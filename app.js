@@ -17,11 +17,12 @@ var createRouter = require('./routes/createRouter');
 var editRouter = require('./routes/editRouter');
 var categoriesRouter = require('./routes/categoriesRouter');
 
-const url = 'mongodb://localhost:27017/shopData';
+const url = process.env.MONGODB_URI;
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
     console.log(`Server connected`);
+    console.log(process.env.TIMES);
 }, (err) => { console.log(err);});
 var app = express();
 

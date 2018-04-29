@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 const expressValidator = require('express-validator');
 const Products = require('../models/products');
 const Categories = require('../models/categories');
@@ -69,8 +71,8 @@ router.route('/')
                 .then((product) => {
                     if (req.body.images) {
                         req.body.images.forEach((img) => {
-                            console.log(img);
-                            fs.unlinkSync('./public/images/products/' + img)
+                            let imgPath = path.join('public', 'images', 'products', img);
+                            fs.unlinkSync(imgPath);
                         });
                     }
                     req.body.images = product.images; // req.body.images przychodzi puste z formularza
@@ -104,7 +106,8 @@ router.route('/')
                             let index = product.images.indexOf(img);
                             if (index !== -1) {
                                 product.images.splice(index, 1);
-                                fs.unlinkSync('./public/images/products/' + img);
+                                let imgPath = path.join('public', 'images', 'products', img);
+                                fs.unlinkSync(imgPath)
                             }
                         })
                     }

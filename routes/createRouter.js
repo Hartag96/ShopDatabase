@@ -38,7 +38,8 @@ router.route('/')
         let errors = req.validationErrors();
         if (errors) {
             req.body.images.forEach((img) => { // usuwanie uploadowanych plikow
-                fs.unlinkSync('public/images/products/' + img)
+                let imgPath = path.join(__dirname, 'public', 'images', 'products', img);
+                fs.unlinkSync(imgPath)
             })
             categoriesList()
                 .then((categories) => {
@@ -81,8 +82,5 @@ router.route('/')
                 }, (err) => next(err))
                 .catch((err) => next(err));
         }
-
-
-
     })
 module.exports = router;
