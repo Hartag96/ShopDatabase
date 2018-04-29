@@ -80,7 +80,7 @@ router.route('/')
                     categoriesList()
                         .then((categories) => {
                             res.render('edit', {
-                                title: `Bład przy edycji productu`,
+                                title: `Bład przy edycji produktu`,
                                 product: req.body, // wysyla to samo co przyslal uzytkownik
                                 categories: categories,
                                 succes: false,
@@ -125,7 +125,7 @@ router.route('/')
                             product.available = req.body.available;
                             product.save()
                                 .then((product) => {
-                                    console.log('zapisuje', product.name);
+                                    console.log('zapisuję', product.name);
                                     res.redirect("/product/" + product.id);
                                 }, (err) => next(err))
                         }, (err) => next(err))
